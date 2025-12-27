@@ -10,85 +10,57 @@
 ```
 #!/bin/bash
 
-# Строгий режим для отладки
 set -euo pipefail
 
-# Переменные
-DISK="/dev/sdb"
-PARTITION="${DISK}1"
-MOUNT_POINT="/mnt"
-FSTAB_FILE="/etc/fstab"
+# Переход в домашнюю директорию и создание временной рабочей папки
+cd ~
+rm -rf fol 2>/dev/null || true  # на случай, если уже существует
+mkdir fol
+cd fol
 
-# Существует ли диск
-if [ ! -b "$DISK" ]; then
-    echo "Ошибка: Диск $DISK не найден. Убедитесь, что он добавлен в ВМ." >&2
-    exit 1
-fi
+# Создание дерева директорий
+mkdir fol1
+mkdir -p fol/sfol/
 
-# Создание раздела (MBR + один primary)
-echo "Создание раздела на $DISK..."
-echo -e "o\nn\np\n1\n\n\nw" | sudo fdisk "$DISK" >/dev/null 2>&1
+# Создание файла и запись текста
+cd fol1
+touch file.txt
+echo "HelloWorld!" > file.txt
 
-# Ожидание обновления инфы о разделах
-sleep 2
+# Создание fol2 и перемещение файла
+mkdir fol2
+mv file.txt fol2/
 
-# Проверка на раздел
-if [ ! -b "$PARTITION" ]; then
-    echo "Ошибка: Раздел $PARTITION не создан." >&2
-    exit 1
-fi
+# Копирование файла обратно в fol1
+cp fol2/file.txt .
 
-# Создание ФС ext4
-echo "Создание ФС ext4 на $PARTITION..."
-sudo mkfs.ext4 -F "$PARTITION" >/dev/null
+# Переименование файла
+mv file.txt file1.txt
 
-# Монтирование
-echo "Монтирование $PARTITION в $MOUNT_POINT..."
-sudo mkdir -p "$MOUNT_POINT"
-sudo mount "$PARTITION" "$MOUNT_POINT"
+# Дополнение файла несколькими строками
+echo "1Hello" >> file1.txt
+echo "2Hello" >> file1.txt
+echo "3Hell" >> file1.txt
 
-# Создание тестовых файлов
-echo "Создание тестовых файлов..."
-echo "Этот файл создан автоматически." | sudo tee "$MOUNT_POINT/test_file.txt" >/dev/null
-sudo touch "$MOUNT_POINT/.keep"
+# Сравнение содержимого file1.txt и fol2/file.txt
+echo "Сравнение файлов:"
+diff -s file1.txt fol2/file.txt || true  # || true, чтобы не падал при различиях
 
-# Отмонтирование
-echo "Отмонтирование $MOUNT_POINT..."
-sudo umount "$MOUNT_POINT"
+# Сортировка содержимого
+sort file1.txt > sort_file1.txt
+sort -r file1.txt > sort_file1_desc.txt
 
-# Получаем UUID раздела
-UUID=$(sudo blkid -s UUID -o value "$PARTITION")
-if [ -z "$UUID" ]; then
-    echo "Не удалось получить UUID для $PARTITION." >&2
-    exit 1
-fi
+echo "Файлы созданы и обработаны"
 
-# Добавление записи в /etc/fstab (если нет)
-FSTAB_ENTRY="UUID=$UUID $MOUNT_POINT ext4 defaults 0 2"
+# Удаление всего
+cd ~/fol
+rm -rf fol1 fol/sfol/
 
-if ! grep -qxF "$FSTAB_ENTRY" "$FSTAB_FILE"; then
-    echo "Добавление записи в $FSTAB_FILE..."
-    echo "$FSTAB_ENTRY" | sudo tee -a "$FSTAB_FILE" >/dev/null
-else
-    echo "Запись уже есть в $FSTAB_FILE."
-fi
+# Возврат в домашнюю директорию и удаление корневой папки
+cd ~
+rm -rf fol
 
-# Проверка fstab
-echo "Проверка корректности /etc/fstab..."
-if sudo mount -a; then
-    echo "Диск автоматически смонтирован"
-else
-    echo "mount -a завершился с ошибкой. Нужно п роверить /etc/fstab вручную." >&2
-    exit 1
-fi
-
-# Проверка
-if mount | grep -q "$MOUNT_POINT"; then
-    echo "Диск $PARTITION успешно смонтирован в $MOUNT_POINT."
-else
-    echo "Диск не смонтирован после mount -a." >&2
-    exit 1
-fi
+echo "Все файлы и папки удалены. Работа завершена."
 ```
 По флагам ```set -euo pipefail```:<br>
 ```-e```: скрипт завершится сразу при любой ошибке.<br>
