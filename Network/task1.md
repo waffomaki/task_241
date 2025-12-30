@@ -19,11 +19,11 @@
 ![src/t1_3.png](src/t1_3.png)<br>
 
 4. Выведите список маршрутов<br>
-```ip route show```
+```ip route show```<br>
 ![src/t1_4.png](src/t1_4.png)<br>
 
 5. Выведите arp таблицу<br>
-```ip neigh show```
+```ip neigh show```<br>
 ![src/t1_5.png](src/t1_5.png)<br>
 
 
