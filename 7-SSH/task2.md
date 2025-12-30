@@ -22,6 +22,6 @@ Host myserver
 Пусть будет ```myserver```.
 
 5. Проверьте работоспособность<br>
-```ssh myserver```
+```ssh myserver```<br>
 ![src/t2_3.png](src/t2_2.png)
 
