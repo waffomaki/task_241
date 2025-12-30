@@ -41,7 +41,7 @@
 ```sudo chmod 700 /srv/samba/secure_rw``` - выставляем права<br>
 Добавим пользователя в samba: ```sudo smbpasswd -a sambauser```<br>
 Пароль - smbUsR<br>
-![src/t1_3.png](src/t1_3.png)
+![src/t1_3.png](src/t1_3.png)<br>
 Добавим в smb.conf: ```sudo nano /etc/samba/smb.conf```:<br>
 ```
 [SecureRW]
@@ -51,7 +51,7 @@
    guest ok = no
    valid users = sambauser
 ```
-![src/t1_4.png](src/t1_4.png)
+![src/t1_4.png](src/t1_4.png)<br>
 Перезапускаем: ```sudo systemctl restart smb```<br>
 Теперь можно подключаться как ```sambauser``` с паролем.
 
@@ -68,7 +68,7 @@
 ```sudo chgrp team /srv/samba/team_full``` - смена группы
 ```sudo chmod 2770 /srv/samba/team_full``` - setgid + rwx для группы
 2770 = 2 - setgid (новые файлы наследуют группу team), 770 - rwx для владельца и группы, ничего для остальных.
-![src/t1_5.png](src/t1_5.png)
+![src/t1_5.png](src/t1_5.png)<br>
 Отредактируем ```smb.conf```:<br>
 ```
 [TeamFull]
@@ -78,7 +78,7 @@
    guest ok = no
    valid users = @team
 ```
-![src/t1_6.png](src/t1_6.png)
+![src/t1_6.png](src/t1_6.png)<br>
 Здесь @team - все пользователи группы team.<br>
 Перезапускаем: ```sudo systemctl restart smb```<br>
 
@@ -98,7 +98,7 @@
 ```sudo smbpasswd -a r_user```, пароль - readUsR<br>
 ```sudo smbpasswd -a n_user```, пароль - naUsR<br>
 
-![src/t1_7.png](src/t1_7.png)
+![src/t1_7.png](src/t1_7.png)<br>
 
 Создаем папку:<br>
 ```sudo mkdir -p /srv/samba/mix``` - создаем папку<br>
@@ -115,7 +115,7 @@
    write list = @writers
    read only = yes
 ```
-![src/t1_8.png](src/t1_8.png)
+![src/t1_8.png](src/t1_8.png)<br>
 Здесь:<br>
 - valid users — кто вообще может подключиться.<br>
 - read only = yes — по умолчанию только чтение.<br>

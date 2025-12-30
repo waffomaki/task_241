@@ -10,14 +10,14 @@
 2. Попробуйте так-же проверить возможность подключения по ssh<br>
 ```ssh student@ternar.io -p 241```<br>
 Работает.
-![src/t2_1.png](src/t2_1.png)
+![src/t2_1.png](src/t2_1.png)<br>
 
 3. Если её нет то откройте порт<br>
 Если бы не было: ```sudo firewall-cmd --add-port=241/tcp```<br>
 
 4. Выведите список открытых портов с помощью firewall-cmd<br>
 ```sudo firewall-cmd --list-ports```<br>
-![src/t2_2.png](src/t2_2.png)
+![src/t2_2.png](src/t2_2.png)<br>
 Список пустой, потому что порты были открыты через iptables.
 
 5. Можно ли там добавить порты по названию сервиса?<br>
