@@ -29,7 +29,7 @@
 - ```PasswordAuthentication no```
 - ```PubkeyAuthentication yes```
 - ```AuthorizedKeysFile .ssh/authorized_keys```
-<br>
+
 PasswordAuthentication:<br>
 ![src/t3_3.png](src/t3_3.png)<br>
 PubkeyAuthentication:<br>
