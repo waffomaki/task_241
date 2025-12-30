@@ -67,7 +67,7 @@
 ```sudo mkdir -p /srv/samba/team_full```
 ```sudo chgrp team /srv/samba/team_full``` - смена группы
 ```sudo chmod 2770 /srv/samba/team_full``` - setgid + rwx для группы
-2770 = 2 - setgid (новые файлы наследуют группу team), 770 - rwx для владельца и группы, ничего для остальных.
+2770 = 2 - setgid (новые файлы наследуют группу team), 770 - rwx для владельца и группы, ничего для остальных.<br>
 ![src/t1_5.png](src/t1_5.png)<br>
 Отредактируем ```smb.conf```:<br>
 ```
