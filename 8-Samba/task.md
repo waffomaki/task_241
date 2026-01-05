@@ -3,7 +3,7 @@
 
 
 1. Установите пакет samba<br>
-Уже устанавливал в каком-то задании: ```sudo apt-get install samba```<br>
+Устанавливаем: ```sudo apt-get install samba```<br>
 
 2. ЧТо такое побщая папка, зачем оно может быть нужно?<br>
 Общая папка (Share) — это каталог на сервере, доступный по сети другим пользователям или компьютерам.<br>
@@ -121,4 +121,19 @@
 - read only = yes — по умолчанию только чтение.<br>
 - write list = @writers — эти пользователи/группы могут писать, несмотря на read only.<br>
 
-Перезапускаем: ```sudo systemctl restart smb```
+Перезапускаем: ```sudo systemctl restart smb```<br>
+
+Проверяем:<br>
+![src/t1_9.png](src/t1_9.png)<br>
+Добавим ```map to guest = Bad User``` для шары:<br>
+![src/t1_10.png](src/t1_10.png)<br>
+Проверяем sambauser:<br>
+![src/t1_12.png](src/t1_11.png)<br>
+Проверяем w_user:<br>
+![src/t1_12.png](src/t1_12.png)<br>
+Проверяем r_user:<br>
+![src/t1_13.png](src/t1_13.png)<br>
+Проверяем n_user:<br>
+![src/t1_14.png](src/t1_14.png)<br>
+Проверяем PublicRead:<br>
+![src/t1_15.png](src/t1_15.png)<br>
